@@ -1,0 +1,72 @@
+@property --angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes border-spin {
+  from { --angle: 0deg; }
+  to   { --angle: 360deg; }
+}
+
+.border-glow-card {
+  position: relative;
+  border-radius: var(--border-radius, 16px);
+  isolation: isolate;
+  box-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.06),
+    0 4px 12px rgba(0, 0, 0, 0.08),
+    0 8px 24px rgba(0, 0, 0, 0.06);
+  transition: box-shadow 0.3s ease;
+}
+
+.border-glow-card:hover {
+  box-shadow:
+    0 2px 6px rgba(0, 0, 0, 0.08),
+    0 8px 24px rgba(0, 0, 0, 0.12),
+    0 16px 40px rgba(0, 0, 0, 0.10);
+}
+
+.border-glow-inner {
+  position: relative;
+  z-index: 2;
+  border-radius: calc(var(--border-radius, 16px) - 0px);
+  background-color: var(--card-bg, hsl(var(--card)));
+  width: 100%;
+  height: 100%;
+}
+
+/* The rotating border — uses mask to show ONLY the rim */
+.edge-light {
+  position: absolute;
+  inset: -1.5px;
+  border-radius: calc(var(--border-radius, 16px) + 1px);
+  z-index: 3;
+  pointer-events: none;
+  
+  background: conic-gradient(
+    from var(--angle),
+    transparent 75%,
+    var(--glow-color, rgba(11, 94, 215, 1)) 90%,
+    white 95%,
+    var(--glow-color, rgba(11, 94, 215, 1)) 100%
+  );
+
+  /* Punch out the interior - only rim remains visible */
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  padding: 1.5px;
+
+  animation: border-spin 3s linear infinite;
+}
+
+/* Hover: speed up the spin */
+.border-glow-card:hover .edge-light {
+  animation-duration: 1.5s;
+}
