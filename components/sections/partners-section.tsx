@@ -51,9 +51,9 @@ export function PartnersSection() {
         {/* Scrolling Track */}
         <div className="flex overflow-hidden">
           <motion.div
-            className="flex gap-12 items-center w-max"
+            className="flex gap-12 items-center w-max pr-12"
             animate={{
-              x: [0, -208 * partners.length],
+              x: ["0%", "-50%"],
             }}
             transition={{
               x: {
@@ -64,8 +64,8 @@ export function PartnersSection() {
               },
             }}
           >
-            {/* Duplicate logos for seamless loop */}
-            {[...partners, ...partners, ...partners].map((partner, index) => (
+            {/* Two identical copies; animating to -50% loops seamlessly */}
+            {[...partners, ...partners].map((partner, index) => (
               <div
                 key={`${partner.name}-${index}`}
                 className="flex-shrink-0 group"

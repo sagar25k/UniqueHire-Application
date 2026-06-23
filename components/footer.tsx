@@ -56,18 +56,21 @@ export function Footer() {
             <div className="mt-6 flex gap-4">
               <a
                 href="#"
+                aria-label="UniqueHire on LinkedIn"
                 className="rounded-full bg-muted p-2 transition-colors hover:bg-[#043b73] hover:text-white"
               >
                 <Linkedin className="h-5 w-5" />
               </a>
               <a
                 href="#"
+                aria-label="UniqueHire on Twitter"
                 className="rounded-full bg-muted p-2 transition-colors hover:bg-[#043b73] hover:text-white"
               >
                 <Twitter className="h-5 w-5" />
               </a>
               <a
                 href="#"
+                aria-label="UniqueHire on Facebook"
                 className="rounded-full bg-muted p-2 transition-colors hover:bg-[#043b73] hover:text-white"
               >
                 <Facebook className="h-5 w-5" />
@@ -178,13 +181,13 @@ export function Footer() {
               Developed Team
             </Link>
             <Link
-              href="#"
+              href="/privacy"
               className="text-sm text-muted-foreground transition-colors hover:text-[#043b73]"
             >
               Privacy Policy
             </Link>
             <Link
-              href="#"
+              href="/terms"
               className="text-sm text-muted-foreground transition-colors hover:text-[#043b73]"
             >
               Terms of Service

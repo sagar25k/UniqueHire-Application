@@ -81,7 +81,7 @@ function AnimatedCounter({
 
   return (
     <span ref={ref} className="tabular-nums">
-      {isYear ? count : count}
+      {isYear ? value : count}
       {suffix}
     </span>
   )

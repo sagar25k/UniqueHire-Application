@@ -35,15 +35,18 @@ export interface TestimonialCarouselProps {
 export function TestimonialCarousel({ items, className }: TestimonialCarouselProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  // Fallback if empty
-  if (!items || items.length === 0) return null;
+  const count = items?.length ?? 0;
 
   useEffect(() => {
+    if (count === 0) return;
     const interval = setInterval(() => {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % items.length);
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % count);
     }, 4500);
     return () => clearInterval(interval);
-  }, [items.length]);
+  }, [count]);
+
+  // Fallback if empty (after hooks to preserve hook order)
+  if (count === 0) return null;
 
   const handleNext = () =>
     setCurrentIndex((index) => (index + 1) % items.length);

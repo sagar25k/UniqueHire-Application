@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useRef } from "react";
 import { motion } from "framer-motion";
 
 export interface BorderGlowProps {
@@ -33,6 +33,9 @@ export default function BorderGlow({
   // A beautiful trailing tail effect
   const gradientStr = `conic-gradient(from 0deg, transparent 0deg, ${mainColor} ${coneSpread / 2}deg, ${endColor} ${coneSpread}deg, transparent ${coneSpread + 10}deg)`;
 
+  // Stable per-instance duration variation (computed once, not on every render)
+  const durationRef = useRef(3 + Math.random());
+
   return (
     <div
       className={`relative overflow-hidden p-[1px] ${className}`}
@@ -43,7 +46,7 @@ export default function BorderGlow({
         className="absolute -inset-[150%] z-0"
         animate={{ rotate: [0, 360] }}
         transition={{
-          duration: 3 + Math.random(), // slight variation for organic feel
+          duration: durationRef.current, // slight per-instance variation for organic feel
           repeat: Infinity,
           ease: "linear",
         }}

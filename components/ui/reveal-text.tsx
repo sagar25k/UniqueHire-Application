@@ -44,19 +44,22 @@ export function RevealText({
     const lastLetterDelay = (text.length - 1) * letterDelay;
     const initialDelay = (lastLetterDelay * 1000) + springDuration;
     
+    let loopInterval: ReturnType<typeof setInterval>;
+
     // Trigger the initial sweep
     const timer = setTimeout(() => {
       setShowRedText(true);
-      
+
       // Start continuous looping every 6 seconds
-      const loopInterval = setInterval(() => {
+      loopInterval = setInterval(() => {
         setSweepKey((prev) => prev + 1);
       }, 6000);
-      
-      return () => clearInterval(loopInterval);
     }, initialDelay);
-    
-    return () => clearTimeout(timer);
+
+    return () => {
+      clearTimeout(timer);
+      clearInterval(loopInterval);
+    };
   }, [text.length, letterDelay, springDuration]);
 
   // Keep track of the global index across words so the stagger delay functions smoothly

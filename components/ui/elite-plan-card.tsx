@@ -5,7 +5,11 @@ import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 
-interface ElitePlanCardProps extends React.HTMLAttributes<HTMLDivElement> {
+interface ElitePlanCardProps
+  extends Omit<
+    React.HTMLAttributes<HTMLDivElement>,
+    "onAnimationStart" | "onAnimationEnd" | "onDrag" | "onDragStart" | "onDragEnd"
+  > {
   imageUrl: string;
   title: string;
   subtitle: string;

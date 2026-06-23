@@ -13,9 +13,7 @@ import {
   Cloud,
   BarChart3,
   CheckCircle,
-  Award,
-  Clock,
-  Shield
+  Award
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
@@ -86,15 +84,7 @@ export default function ConsultingPage() {
       <main className="min-h-screen pt-20">
         {/* Hero Section */}
         <section className="relative overflow-hidden py-24 min-h-[600px] flex items-center">
-          <div 
-            className="absolute inset-0 z-0"
-            style={{
-              backgroundImage: 'url(/images/consulting_2.jpg)',
-              backgroundSize: 'cover',
-              backgroundPosition: 'center',
-            }}
-          />
-          <div className="absolute inset-0 bg-background/80 backdrop-blur-[2px] z-0" />
+          <div className="absolute inset-0 bg-gradient-to-br from-background via-background to-secondary/30 z-0" />
           
           <div className="absolute inset-0 opacity-40 z-0">
             <div className="absolute top-20 left-10 h-72 w-72 rounded-full bg-[#043b73]/20 blur-3xl" />
