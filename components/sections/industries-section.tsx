@@ -9,50 +9,44 @@ import {
   Cpu,
   Database,
 } from "lucide-react"
-import BorderGlow from "@/components/BorderGlow"
+import { GlassTiltCard } from "@/components/ui/glass-tilt-card"
 
 const industries = [
   {
     icon: Brain,
     title: "AI / Data Science",
     description: "Machine learning, data analytics, and AI-powered solutions",
-    glowColor: "217 87 53",       // #043b73 blue
-    colors: ["#043b73", "#1a6fe0", "#0847a8"],
+    accent: "blue" as const,
   },
   {
     icon: Cloud,
     title: "Cloud & DevOps",
     description: "Cloud migration, infrastructure automation, and CI/CD",
-    glowColor: "25 100 50",       // #FF6B00 orange
-    colors: ["#FF6B00", "#ff8533", "#cc5500"],
+    accent: "orange" as const,
   },
   {
     icon: Shield,
     title: "Cybersecurity",
     description: "Security assessments, compliance, and threat protection",
-    glowColor: "217 87 53",
-    colors: ["#043b73", "#1a6fe0", "#0847a8"],
+    accent: "blue" as const,
   },
   {
     icon: Building2,
     title: "Enterprise IT",
     description: "End-to-end enterprise solutions and digital transformation",
-    glowColor: "25 100 50",
-    colors: ["#FF6B00", "#ff8533", "#cc5500"],
+    accent: "orange" as const,
   },
   {
     icon: Cpu,
     title: "IoT Solutions",
     description: "Connected devices, edge computing, and smart systems",
-    glowColor: "217 87 53",
-    colors: ["#043b73", "#1a6fe0", "#0847a8"],
+    accent: "blue" as const,
   },
   {
     icon: Database,
     title: "Data Engineering",
     description: "Data pipelines, warehousing, and big data solutions",
-    glowColor: "25 100 50",
-    colors: ["#FF6B00", "#ff8533", "#cc5500"],
+    accent: "orange" as const,
   },
 ]
 
@@ -110,36 +104,13 @@ export function IndustriesSection() {
         >
           {industries.map((industry, index) => (
             <motion.div key={industry.title} variants={itemVariants} className="h-full">
-              <BorderGlow
-                glowColor={industry.glowColor}
-                colors={industry.colors}
-                backgroundColor="var(--card)"
-                borderRadius={16}
-                glowIntensity={1.8}
-                coneSpread={30}
-                fillOpacity={0.06}
-                className="h-full w-full"
-              >
-                <div className="flex items-start gap-4 p-6">
-                  <div
-                    className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl ${
-                      index % 2 === 0 ? "bg-[#043b73]/10" : "bg-[#FF6B00]/10"
-                    }`}
-                  >
-                    <industry.icon
-                      className={`h-6 w-6 ${
-                        index % 2 === 0 ? "text-[#043b73]" : "text-[#FF6B00]"
-                      }`}
-                    />
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-semibold">{industry.title}</h3>
-                    <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
-                      {industry.description}
-                    </p>
-                  </div>
-                </div>
-              </BorderGlow>
+              <GlassTiltCard
+                icon={industry.icon}
+                title={industry.title}
+                description={industry.description}
+                accent={industry.accent}
+                index={index + 1}
+              />
             </motion.div>
           ))}
         </motion.div>
