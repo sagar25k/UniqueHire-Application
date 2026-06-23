@@ -8,7 +8,6 @@ import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
 import { ScrollToTop } from "@/components/scroll-to-top"
 import { HeroSection } from "@/components/sections/hero-section"
-import { SplineSection } from "@/components/sections/spline-section"
 import { ServicesSection } from "@/components/sections/services-section"
 import { AboutSection } from "@/components/sections/about-section"
 import { StatsSection } from "@/components/sections/stats-section"
@@ -50,10 +49,6 @@ export default function HomePage() {
 
       <main>
         <HeroSection />
-
-        {/* Full-screen Spline 3D section — sits between the globe hero and
-            the services content; picks up brand blue/orange/white colours */}
-        <SplineSection />
 
         {/* OGL particle layer floats above the fixed background */}
         <div className="relative" style={{ isolation: "isolate" }}>
