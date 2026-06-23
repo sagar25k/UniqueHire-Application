@@ -21,7 +21,7 @@ const stats = [
 
 export function HeroSection() {
   return (
-    <section className="relative min-h-screen overflow-hidden border-b border-border pt-20 shadow-sm">
+    <section className="relative min-h-screen overflow-hidden pt-20">
       {/* Ambient aurora + perspective grid floor */}
       <AuroraBackground className="absolute inset-0" intensity={0.9} />
       <div
