@@ -134,7 +134,7 @@ export const InteractiveMenu: React.FC = () => {
   }, []);
 
   return (
-    <div className="flex mx-auto w-max max-w-[calc(100vw-2rem)] items-center gap-1 sm:gap-2 md:gap-8 lg:gap-14 rounded-full bg-background/80 backdrop-blur-xl border border-white/10 px-2 py-2 md:px-4 shadow-2xl dark:shadow-[0_8px_30px_rgba(11,94,215,0.15)] transition-all duration-500 hover:border-white/20 hover:shadow-[0_8px_40px_rgba(11,94,215,0.2)]">
+    <div className="relative flex mx-auto w-max max-w-[calc(100vw-2rem)] items-center gap-1 sm:gap-2 md:gap-8 lg:gap-14 rounded-full border border-white/60 bg-white/40 px-2 py-2 md:px-4 shadow-[0_14px_48px_-10px_rgba(4,59,115,0.35)] backdrop-blur-2xl transition-all duration-500 hover:bg-white/50 hover:shadow-[0_16px_52px_-8px_rgba(4,59,115,0.45)] before:pointer-events-none before:absolute before:inset-x-4 before:top-0 before:h-px before:rounded-full before:bg-gradient-to-r before:from-transparent before:via-white before:to-transparent">
       {/* Primary Floating Logo integration as requested */}
       <Link href="/" className="ml-1 mr-1 md:ml-4 md:mr-4 transition-transform hover:scale-[1.02] duration-300 flex-shrink-0">
         {/* Desktop Logo */}
