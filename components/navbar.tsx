@@ -65,10 +65,25 @@ export function Navbar() {
         className={`fixed top-4 left-4 right-4 mx-auto max-w-7xl z-50 transition-all duration-700 ease-[cubic-bezier(0.4,0,0.2,1)] rounded-full ${
           scrolled
             ? "opacity-0 pointer-events-none scale-75 -translate-y-4"
-            : "bg-background/90 backdrop-blur-xl shadow-lg border border-black/5 dark:border-white/10 opacity-100 scale-100 translate-y-0"
+            : "border border-white/40 bg-white/70 shadow-[0_10px_40px_-8px_rgba(4,59,115,0.20)] backdrop-blur-2xl opacity-100 scale-100 translate-y-0"
         }`}
       >
-        <nav className="flex items-center justify-between px-6 py-3">
+        {/* Glassy shine layer (clipped to the bar only) */}
+        <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden rounded-full">
+          {/* top inner highlight */}
+          <div className="absolute inset-x-6 top-0 h-px bg-gradient-to-r from-transparent via-white/90 to-transparent" />
+          {/* faint brand tint at the ends */}
+          <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-[#043b73]/8 to-transparent" />
+          <div className="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-[#FF6B00]/8 to-transparent" />
+          {/* periodic shine sweep */}
+          <motion.div
+            className="absolute top-0 h-full w-1/3 bg-gradient-to-r from-transparent via-white/45 to-transparent"
+            initial={{ x: "-150%" }}
+            animate={{ x: ["-150%", "350%"] }}
+            transition={{ duration: 2.2, ease: "easeInOut", repeat: Infinity, repeatDelay: 5 }}
+          />
+        </div>
+        <nav className="relative flex items-center justify-between px-6 py-3">
           {/* Logo */}
         <Link href="/" className="flex items-center">
           <motion.div
@@ -217,7 +232,7 @@ export function Navbar() {
 
           <motion.li
             animate={position}
-            className="absolute z-0 h-9 rounded-full bg-[#FF6B00]"
+            className="absolute z-0 h-9 rounded-full bg-gradient-to-b from-[#FF6B00] to-[#e85d00] shadow-[0_4px_16px_rgba(255,107,0,0.45)]"
           />
         </ul>
 

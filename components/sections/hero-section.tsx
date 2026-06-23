@@ -3,7 +3,7 @@
 import { motion } from "framer-motion"
 import dynamic from "next/dynamic"
 import { ArrowRight, Play } from "lucide-react"
-import { RevealText } from "@/components/ui/reveal-text"
+import { WordReveal } from "@/components/ui/word-reveal"
 import { AuroraBackground } from "@/components/ui/aurora-background"
 import { MagneticButton } from "@/components/ui/magnetic-button"
 
@@ -55,11 +55,10 @@ export function HeroSection() {
           </motion.div>
 
           <div className="mt-8 mb-4 w-full text-center lg:text-left">
-            <RevealText
+            <WordReveal
               text="Empowering GCCs in India with UniqueHire's Expertise in Talent Acquisition"
-              textColor="text-foreground"
-              overlayColor="text-[#043b73]"
-              fontSize="text-2xl sm:text-3xl md:text-4xl lg:text-5xl lg:leading-tight"
+              shimmerWords={2}
+              className="text-2xl font-bold text-foreground sm:text-3xl md:text-4xl lg:text-5xl lg:leading-tight text-balance"
             />
           </div>
 
