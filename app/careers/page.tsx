@@ -16,12 +16,12 @@ import {
   Globe,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
 import { ScrollToTop } from "@/components/scroll-to-top"
-import BorderGlow from "@/components/ui/BorderGlow"
+import { TiltCard } from "@/components/ui/tilt-card"
+import { JobRailCard } from "@/components/ui/job-rail-card"
 
 // WebGL hero background — load after hydration so it never blocks the
 // initial paint / navigation. Visual is unchanged; it fades in a beat later.
@@ -189,30 +189,21 @@ export default function CareersPage() {
                   viewport={{ once: true }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
                 >
-                  <BorderGlow
-                    className="h-full"
-                    glowColor={index % 2 === 0 ? "218 90% 55%" : "25 100% 50%"} // Blue or Orange
-                    backgroundColor="hsl(var(--card))"
-                    borderRadius={16}
-                  >
-                    <div className="group h-full rounded-2xl p-6 transition-all duration-300">
-                      <div
-                        className={`flex h-14 w-14 items-center justify-center rounded-xl transition-transform duration-300 group-hover:scale-110 ${
-                          index % 2 === 0 ? "bg-[#043b73]/10" : "bg-[#FF6B00]/10"
-                        }`}
-                      >
-                        <benefit.icon
-                          className={`h-7 w-7 ${
-                            index % 2 === 0 ? "text-[#043b73]" : "text-[#FF6B00]"
-                          }`}
-                        />
-                      </div>
-                      <h3 className="mt-6 text-lg font-semibold">{benefit.title}</h3>
-                      <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
-                        {benefit.description}
-                      </p>
+                  <TiltCard accent={index % 2 === 0 ? "blue" : "orange"} className="h-full">
+                    <div
+                      className={`flex h-14 w-14 items-center justify-center rounded-xl border border-white/60 ${
+                        index % 2 === 0 ? "bg-[#043b73]/10" : "bg-[#FF6B00]/10"
+                      }`}
+                    >
+                      <benefit.icon
+                        className={`h-7 w-7 ${index % 2 === 0 ? "text-[#043b73]" : "text-[#FF6B00]"}`}
+                      />
                     </div>
-                  </BorderGlow>
+                    <h3 className="mt-6 text-lg font-semibold">{benefit.title}</h3>
+                    <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                      {benefit.description}
+                    </p>
+                  </TiltCard>
                 </motion.div>
               ))}
             </div>
@@ -322,15 +313,10 @@ export default function CareersPage() {
                   viewport={{ once: true }}
                   transition={{ duration: 0.4, delay: index * 0.1 }}
                 >
-                  <BorderGlow
-                    glowColor="218 90% 55%"
-                    backgroundColor="hsl(var(--card))"
-                    glowIntensity={1.5}
-                  >
-                    <Card className="group border-0 bg-transparent shadow-none">
-                      <CardContent className="flex flex-col gap-4 p-6 sm:flex-row sm:items-center sm:justify-between">
+                  <JobRailCard accent={index % 2 === 0 ? "blue" : "orange"}>
+                    <div className="group flex flex-col gap-4 p-6 sm:flex-row sm:items-center sm:justify-between">
                         <div>
-                          <h3 className="text-xl font-semibold group-hover:text-[#043b73] transition-colors">
+                          <h3 className="text-xl font-semibold transition-all duration-300 group-hover:translate-x-1 group-hover:text-[#043b73]">
                             {job.title}
                           </h3>
                           <div className="mt-2 flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
@@ -357,9 +343,8 @@ export default function CareersPage() {
                             <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover/btn:translate-x-1" />
                           </Button>
                         </Link>
-                      </CardContent>
-                    </Card>
-                  </BorderGlow>
+                    </div>
+                  </JobRailCard>
                 </motion.div>
               ))}
             </div>
