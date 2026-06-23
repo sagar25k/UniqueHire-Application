@@ -85,6 +85,13 @@ export const InteractiveMenu: React.FC = () => {
     }, 150);
   };
 
+  // Clear any pending hover timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    };
+  }, []);
+
   useEffect(() => {
     // Automatically bind the active indicator to the current route layout
     const currentIndex = defaultItems.findIndex((item) => 
@@ -113,10 +120,11 @@ export const InteractiveMenu: React.FC = () => {
     };
 
     // Use a small delay to ensure webfonts have rendered text accurately before measuring width
-    setTimeout(setLineWidth, 50);
-    
+    const measureTimeout = setTimeout(setLineWidth, 50);
+
     window.addEventListener("resize", setLineWidth);
     return () => {
+      clearTimeout(measureTimeout);
       window.removeEventListener("resize", setLineWidth);
     };
   }, [displayIndex, pathname]);

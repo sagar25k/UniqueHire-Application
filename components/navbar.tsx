@@ -5,7 +5,7 @@ import Link from "next/link"
 import Image from "next/image"
 import { usePathname } from "next/navigation"
 import { motion, AnimatePresence } from "framer-motion"
-import { Menu, X, Moon, Sun, ChevronDown, Users, Globe, GraduationCap, Briefcase, Building2, TestTube, ShoppingCart, Server } from "lucide-react"
+import { Menu, X, ChevronDown, Users, Globe, GraduationCap, Briefcase, Building2, TestTube, ShoppingCart, Server } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
@@ -13,7 +13,6 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { useTheme } from "@/components/theme-provider"
 import { InteractiveMenu } from "@/components/ui/interactive-menu"
 import { GetStartedButton } from "@/components/ui/get-started-button"
 
@@ -42,17 +41,12 @@ export function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const pathname = usePathname()
-  const [mounted, setMounted] = useState(false)
 
   const [position, setPosition] = useState({
     left: 0,
     width: 0,
     opacity: 0,
   });
-
-  useEffect(() => {
-    setMounted(true)
-  }, [])
 
   useEffect(() => {
     const handleScroll = () => {

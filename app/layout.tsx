@@ -1,7 +1,6 @@
 import type { Metadata, Viewport } from 'next'
 import { Inter, Playfair_Display } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
-import { cookies } from 'next/headers'
 import { ThemeProvider } from '@/components/theme-provider'
 import ClickSpark from '@/components/ui/ClickSpark'
 import './globals.css'
@@ -41,19 +40,16 @@ export const viewport: Viewport = {
   initialScale: 1,
 }
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  // Read theme cookie on the server so the correct class is on <html> before
-  // React hydrates — eliminates flash of unstyled content with zero script tags.
-  const cookieStore = await cookies()
-  const savedTheme = cookieStore.get('theme')?.value
-  const htmlClass = savedTheme === 'dark' ? 'dark' : ''
-
+  // Light is the only active theme (no toggle UI). Keeping the layout static —
+  // instead of reading a cookie — lets every route prerender and be fully
+  // prefetched, which makes client-side navigation near-instant.
   return (
-    <html lang="en" className={htmlClass} suppressHydrationWarning data-scroll-behavior="smooth">
+    <html lang="en" suppressHydrationWarning data-scroll-behavior="smooth">
       <head>
         {/* Preconnect to external video CDN */}
         <link rel="preconnect" href="https://assets.mixkit.co" />

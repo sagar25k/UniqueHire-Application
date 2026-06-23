@@ -4,8 +4,7 @@ import { motion } from "framer-motion"
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
 import { 
-  Building2, 
-  CreditCard, 
+  Building2,
   Landmark,
   Wallet,
   Users,

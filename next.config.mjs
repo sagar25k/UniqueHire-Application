@@ -1,16 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  devIndicators: {
-    appIsrStatus: false,
-    buildActivity: false,
-  },
-  typescript: {
-    ignoreBuildErrors: true,
-  },
   images: {
-    unoptimized: true,
+    formats: ['image/avif', 'image/webp'],
   },
-  allowedDevOrigins: ["192.168.1.23"],
   experimental: {
     optimizePackageImports: [
       'framer-motion',

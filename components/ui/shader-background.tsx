@@ -225,6 +225,10 @@ const ShaderBackground = () => {
     return () => {
       window.removeEventListener('resize', resizeCanvas);
       cancelAnimationFrame(animationFrameId);
+      // Release GL resources so contexts don't accumulate on remount
+      gl.deleteBuffer(positionBuffer);
+      gl.deleteProgram(shaderProgram);
+      gl.getExtension('WEBGL_lose_context')?.loseContext();
     };
   }, []);
 

@@ -132,7 +132,7 @@ export default function TeamPage() {
               {[
                 { value: "100+", label: "Years Combined Experience" },
                 { value: "500+", label: "Team Members" },
-                { value: "5", label: "Industry Leaders" },
+                { value: "4", label: "Industry Leaders" },
                 { value: "3", label: "Countries" },
               ].map((stat, index) => (
                 <motion.div

@@ -50,32 +50,67 @@ const offices = [
   },
 ]
 
-export default function ContactPage() {
-  const [isSubmitted, setIsSubmitted] = useState(false)
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    company: "",
-    phone: "",
-    subject: "",
-    message: "",
-  })
+const WEB3FORMS_ACCESS_KEY = process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY
 
-  const handleSubmit = (e: React.FormEvent) => {
+const emptyForm = {
+  name: "",
+  email: "",
+  company: "",
+  phone: "",
+  subject: "",
+  message: "",
+}
+
+export default function ContactPage() {
+  const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle")
+  const [errorMsg, setErrorMsg] = useState("")
+  const [formData, setFormData] = useState(emptyForm)
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    // Simulate form submission
-    setIsSubmitted(true)
-    setTimeout(() => {
-      setIsSubmitted(false)
-      setFormData({
-        name: "",
-        email: "",
-        company: "",
-        phone: "",
-        subject: "",
-        message: "",
+
+    if (!WEB3FORMS_ACCESS_KEY) {
+      setStatus("error")
+      setErrorMsg("Form is not configured yet. Please email us directly at info@uniquehire.com.")
+      return
+    }
+
+    setStatus("submitting")
+    setErrorMsg("")
+
+    try {
+      const res = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          access_key: WEB3FORMS_ACCESS_KEY,
+          subject: `New enquiry: ${formData.subject}`,
+          from_name: formData.name,
+          name: formData.name,
+          email: formData.email,
+          company: formData.company,
+          phone: formData.phone,
+          message: formData.message,
+        }),
       })
-    }, 3000)
+
+      const data = await res.json()
+
+      if (res.ok && data.success) {
+        setStatus("success")
+        setFormData(emptyForm)
+        setTimeout(() => setStatus("idle"), 5000)
+      } else {
+        setStatus("error")
+        setErrorMsg(data.message || "Something went wrong. Please try again.")
+      }
+    } catch {
+      setStatus("error")
+      setErrorMsg("Network error. Please check your connection and try again.")
+    }
   }
 
   const handleChange = (
@@ -226,9 +261,11 @@ export default function ContactPage() {
                     type="submit"
                     size="lg"
                     className="w-full bg-[#043b73] text-white hover:bg-[#043b73]/90"
-                    disabled={isSubmitted}
+                    disabled={status === "submitting" || status === "success"}
                   >
-                    {isSubmitted ? (
+                    {status === "submitting" ? (
+                      "Sending..."
+                    ) : status === "success" ? (
                       <>
                         <CheckCircle2 className="mr-2 h-5 w-5" />
                         Message Sent!
@@ -240,6 +277,17 @@ export default function ContactPage() {
                       </>
                     )}
                   </Button>
+
+                  <div aria-live="polite" role="status">
+                    {status === "success" && (
+                      <p className="text-sm font-medium text-green-600">
+                        Thanks! We&apos;ve received your message and will reply within 24 hours.
+                      </p>
+                    )}
+                    {status === "error" && (
+                      <p className="text-sm font-medium text-red-600">{errorMsg}</p>
+                    )}
+                  </div>
                 </form>
               </motion.div>
 

@@ -12,24 +12,36 @@ const team = [
     role: "Core Developer",
     description: "Architected and developed the core infrastructure of the UniqueHire platform. Dedicated to delivering scalable, high-performance web solutions.",
     image: "/images/Gunasagar.jpeg",
+    linkedinUrl: "#",
+    githubUrl: "#",
+    mailUrl: "mailto:gunasagarkanithi@gmail.com",
   },
   {
     name: "Saikamal Suro",
     role: "Core Developer",
     description: "Designed core systems and structured the technical capabilities of this website, ensuring a robust and reliable user experience.",
     image: "/images/SaikamalSuro.jpeg",
+    linkedinUrl: "#",
+    githubUrl: "#",
+    mailUrl: "mailto:info@uniquehire.com",
   },
   {
     name: "Sai Ganesh Padhy",
     role: "Core Developer",
     description: "Contributed to engineering essential backend services and ensuring continuous performance optimization.",
     image: "/images/SaiGaneshPadhy.jpeg",
+    linkedinUrl: "#",
+    githubUrl: "#",
+    mailUrl: "mailto:info@uniquehire.com",
   },
   {
     name: "Koona Saivardhan",
     role: "Core Developer",
     description: "Built the advanced animations, interactive 3D elements, and modern front-end UI that power this complete digital experience.",
     image: "/images/Saivardhan.jpeg",
+    linkedinUrl: "#",
+    githubUrl: "#",
+    mailUrl: "mailto:info@uniquehire.com",
   }
 ]
 
@@ -70,9 +82,9 @@ export default function DevelopersPage() {
               title: dev.role,
               description: dev.description,
               imageUrl: dev.image,
-              linkedinUrl: "#",
-              githubUrl: "#",
-              mailUrl: "mailto:info@uniquehire.com",
+              linkedinUrl: dev.linkedinUrl,
+              githubUrl: dev.githubUrl,
+              mailUrl: dev.mailUrl,
             }))}
           />
         </div>
