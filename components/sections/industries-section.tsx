@@ -102,13 +102,14 @@ export function IndustriesSection() {
           viewport={{ once: true, margin: "-100px" }}
           className="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
         >
-          {industries.map((industry) => (
+          {industries.map((industry, index) => (
             <motion.div key={industry.title} variants={itemVariants} className="h-full">
               <GlassTiltCard
                 icon={industry.icon}
                 title={industry.title}
                 description={industry.description}
                 accent={industry.accent}
+                index={index + 1}
               />
             </motion.div>
           ))}
