@@ -1,6 +1,7 @@
 "use client"
 
 import { motion } from "framer-motion"
+import dynamic from "next/dynamic"
 import Link from "next/link"
 import {
   MapPin,
@@ -21,7 +22,13 @@ import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
 import { ScrollToTop } from "@/components/scroll-to-top"
 import BorderGlow from "@/components/ui/BorderGlow"
-import ShaderBackground from "@/components/ui/shader-background"
+
+// WebGL hero background — load after hydration so it never blocks the
+// initial paint / navigation. Visual is unchanged; it fades in a beat later.
+const ShaderBackground = dynamic(() => import("@/components/ui/shader-background"), {
+  ssr: false,
+  loading: () => null,
+})
 
 const jobs = [
   {

@@ -5,7 +5,6 @@ import Link from "next/link"
 import { ArrowRight, Code2, Layers, Server, Users } from "lucide-react"
 import { FlippingCard } from "@/components/ui/flipping-card"
 import { Button } from "@/components/ui/button"
-import Particles from "@/components/ui/particles"
 
 const services = [
   {
