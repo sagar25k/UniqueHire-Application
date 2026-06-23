@@ -21,7 +21,7 @@ const stats = [
 
 export function HeroSection() {
   return (
-    <section className="relative min-h-screen overflow-hidden pt-20">
+    <section className="relative min-h-screen overflow-hidden pt-28 sm:pt-32">
       {/* Ambient aurora + perspective grid floor */}
       <AuroraBackground className="absolute inset-0" intensity={0.9} />
       <div
@@ -40,7 +40,7 @@ export function HeroSection() {
       {/* soft top wash so the navbar floats cleanly */}
       <div aria-hidden className="pointer-events-none absolute inset-0 bg-gradient-to-t from-background via-background/30 to-background/70" />
 
-      <div className="relative z-10 mx-auto flex min-h-[calc(100vh-5rem)] max-w-7xl flex-col items-center justify-center gap-8 px-4 lg:flex-row lg:gap-16 lg:px-8">
+      <div className="relative z-10 mx-auto flex min-h-[calc(100vh-9rem)] max-w-7xl flex-col items-center justify-center gap-8 px-4 lg:flex-row lg:gap-16 lg:px-8">
         {/* Left Content */}
         <div className="flex-1 text-center lg:text-left">
           <motion.div

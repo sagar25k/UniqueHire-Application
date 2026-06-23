@@ -248,12 +248,6 @@ export function Navbar() {
 
         {/* Actions */}
         <div className="flex items-center gap-2">
-
-
-          <Link href="/contact" className="hidden md:block">
-            <GetStartedButton />
-          </Link>
-
           {/* Mobile Menu Button */}
           <Button
             variant="ghost"
