@@ -177,10 +177,17 @@ export function WhyChooseUsSection() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.4, delay: index * 0.1 }}
-                className="group flex gap-5 rounded-2xl border bg-card p-6 transition-all duration-300 hover:shadow-lg"
+                whileHover={{ y: -4 }}
+                className="group relative flex gap-5 overflow-hidden rounded-2xl border border-white/50 bg-white/60 p-6 shadow-[0_8px_24px_rgba(2,23,53,0.06)] backdrop-blur-xl transition-shadow duration-300 hover:shadow-[0_18px_44px_rgba(2,23,53,0.14)]"
               >
+                {/* accent wash on hover */}
                 <div
-                  className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl transition-transform duration-300 group-hover:scale-110"
+                  aria-hidden
+                  className="pointer-events-none absolute -right-8 -top-8 h-28 w-28 rounded-full opacity-0 blur-3xl transition-opacity duration-500 group-hover:opacity-100"
+                  style={{ background: `radial-gradient(circle, ${reason.color}33, transparent 70%)` }}
+                />
+                <div
+                  className="relative flex h-14 w-14 shrink-0 items-center justify-center rounded-xl border border-white/60 transition-transform duration-300 group-hover:scale-110"
                   style={{ backgroundColor: `${reason.color}15` }}
                 >
                   <reason.icon
@@ -188,7 +195,7 @@ export function WhyChooseUsSection() {
                     style={{ color: reason.color }}
                   />
                 </div>
-                <div>
+                <div className="relative">
                   <h3 className="text-lg font-semibold">{reason.title}</h3>
                   <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
                     {reason.description}

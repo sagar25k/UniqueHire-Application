@@ -48,10 +48,11 @@ export function PartnersSection() {
         <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-muted/30 to-transparent z-10 pointer-events-none" />
         <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-muted/30 to-transparent z-10 pointer-events-none" />
 
-        {/* Scrolling Track */}
-        <div className="flex overflow-hidden">
+        {/* Scrolling Track — tilted into 3D for depth */}
+        <div className="flex overflow-hidden [perspective:1200px]">
           <motion.div
-            className="flex gap-12 items-center w-max pr-12"
+            className="flex gap-8 items-center w-max pr-8 [transform-style:preserve-3d]"
+            style={{ transform: "rotateX(14deg)" }}
             animate={{
               x: ["0%", "-50%"],
             }}
@@ -68,16 +69,18 @@ export function PartnersSection() {
             {[...partners, ...partners].map((partner, index) => (
               <div
                 key={`${partner.name}-${index}`}
-                className="flex-shrink-0 group"
+                className="group flex-shrink-0"
               >
-                <div className="relative h-16 w-40 flex items-center justify-center hover:scale-105 transition-all duration-300">
-                  <Image
-                    src={partner.logo}
-                    alt={partner.name}
-                    fill
-                    className="object-contain"
-                    sizes="160px"
-                  />
+                <div className="relative flex h-24 w-44 items-center justify-center rounded-2xl border border-white/50 bg-white/60 px-6 shadow-[0_8px_24px_rgba(2,23,53,0.07)] backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_18px_44px_rgba(2,23,53,0.16)]">
+                  <div className="relative h-12 w-32">
+                    <Image
+                      src={partner.logo}
+                      alt={partner.name}
+                      fill
+                      className="object-contain opacity-80 grayscale transition-all duration-300 group-hover:opacity-100 group-hover:grayscale-0"
+                      sizes="128px"
+                    />
+                  </div>
                 </div>
               </div>
             ))}

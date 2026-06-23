@@ -1,9 +1,8 @@
 "use client"
 
 import { motion } from "framer-motion"
-import Link from "next/link"
 import { ArrowRight, Mail, Phone } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { MagneticButton } from "@/components/ui/magnetic-button"
 
 export function CTASection() {
   return (
@@ -85,24 +84,21 @@ export function CTASection() {
             transition={{ duration: 0.5, delay: 0.3 }}
             className="mt-10 flex flex-col items-center gap-4 sm:flex-row"
           >
-            <Link href="/contact">
-              <Button
-                size="lg"
-                className="group bg-white text-[#043b73] hover:bg-white/90"
-              >
-                Get Started Today
-                <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-              </Button>
-            </Link>
-            <Link href="/careers">
-              <Button
-                size="lg"
-                variant="outline"
-                className="border-white/30 bg-transparent text-white hover:bg-white/10"
-              >
-                Explore Careers
-              </Button>
-            </Link>
+            <MagneticButton
+              href="/contact"
+              variant="primary"
+              className="!bg-white !text-[#043b73] hover:!bg-white/90 hover:!shadow-white/20"
+            >
+              Get Started Today
+              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+            </MagneticButton>
+            <MagneticButton
+              href="/careers"
+              variant="outline"
+              className="!border-white/40 !bg-transparent !text-white hover:!bg-white/10"
+            >
+              Explore Careers
+            </MagneticButton>
           </motion.div>
 
           {/* Contact info */}
