@@ -15,3 +15,7 @@ node_modules
 .next/
 .DS_Store
 *.tsbuildinfo
+
+# Local design tooling (not part of the app)
+.claude/skills/
+design-system/
