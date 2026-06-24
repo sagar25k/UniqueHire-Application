@@ -1,6 +1,6 @@
 "use client"
 
-import { motion } from "framer-motion"
+import { motion, useReducedMotion } from "framer-motion"
 import Link from "next/link"
 import { ArrowRight, CheckCircle2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -12,7 +12,38 @@ const highlights = [
   "Agile Methodologies",
 ]
 
+// continuous confetti — paper pieces falling from the top.
+// shape: "paper" (rect) | "ribbon" (tall thin) | "dot" | "tri" (triangle)
+const CONFETTI_COLORS = ["#043b73", "#FF6B00", "#3b82f6", "#fdba74", "#93c5fd", "#ffffff"]
+const confetti = Array.from({ length: 26 }, (_, i) => {
+  const shapes = ["paper", "ribbon", "dot", "tri"] as const
+  return {
+    left: (i * 37) % 100,                 // spread across width, deterministic
+    shape: shapes[i % shapes.length],
+    color: CONFETTI_COLORS[i % CONFETTI_COLORS.length],
+    duration: 3.6 + (i % 5) * 0.6,        // 3.6 - 6.0s
+    delay: (i % 13) * 0.45,               // staggered start
+    drift: (i % 2 === 0 ? 1 : -1) * (8 + (i % 4) * 6), // horizontal sway px
+    spin: i % 2 === 0 ? 360 : -360,
+  }
+})
+
+function confettiClass(shape: string) {
+  switch (shape) {
+    case "ribbon":
+      return "h-4 w-1 rounded-sm"
+    case "dot":
+      return "h-1.5 w-1.5 rounded-full"
+    case "tri":
+      return "h-2.5 w-2.5 [clip-path:polygon(50%_0,100%_100%,0_100%)]"
+    default:
+      return "h-2.5 w-1.5 rounded-[1px]" // paper
+  }
+}
+
 export function AboutSection() {
+  const reduce = useReducedMotion()
+
   return (
     <section className="relative bg-secondary/30 py-24 lg:py-32 overflow-hidden">
 
@@ -26,34 +57,89 @@ export function AboutSection() {
             transition={{ duration: 0.6 }}
             className="relative"
           >
-            <div className="relative aspect-square overflow-hidden rounded-3xl bg-gradient-to-br from-[#043b73]/10 to-[#FF6B00]/10 p-8 lg:p-12">
-              {/* Abstract shapes */}
-              <div className="absolute left-8 top-8 h-32 w-32 rounded-2xl bg-[#043b73] opacity-80" />
-              <div className="absolute right-12 top-16 h-24 w-24 rounded-full bg-[#FF6B00] opacity-80" />
-              <div className="absolute bottom-16 left-16 h-20 w-20 rounded-xl bg-[#043b73]/60" />
-              <div className="absolute bottom-8 right-8 h-28 w-28 rounded-3xl bg-[#FF6B00]/60" />
-              
-              {/* Center content */}
-              <div className="relative flex h-full items-center justify-center">
-                <div className="rounded-2xl bg-background/90 p-8 text-center shadow-2xl backdrop-blur-sm">
-                  <p className="text-6xl font-bold text-[#043b73]">10+</p>
-                  <p className="mt-2 text-lg font-medium text-muted-foreground">
+            <div className="relative aspect-square overflow-hidden rounded-3xl border border-white/40 bg-gradient-to-br from-[#043b73]/10 to-[#FF6B00]/10 p-8 shadow-[0_20px_60px_-22px_rgba(4,59,115,0.4)] lg:p-12">
+              {/* Abstract shapes — gentle continuous float + rotate */}
+              <motion.div
+                className="absolute left-8 top-8 h-32 w-32 rounded-2xl bg-gradient-to-br from-[#043b73] to-[#0a4f8f] opacity-90 shadow-lg"
+                animate={reduce ? {} : { y: [0, -14, 0], x: [0, 8, 0], rotate: [0, 7, 0] }}
+                transition={reduce ? {} : { duration: 7, ease: "easeInOut", repeat: Infinity }}
+              />
+              <motion.div
+                className="absolute right-12 top-16 h-24 w-24 rounded-full bg-gradient-to-br from-[#FF6B00] to-[#ff8a33] opacity-90 shadow-lg"
+                animate={reduce ? {} : { y: [0, 12, 0], x: [0, -10, 0] }}
+                transition={reduce ? {} : { duration: 8.5, ease: "easeInOut", repeat: Infinity }}
+              />
+              <motion.div
+                className="absolute bottom-16 left-16 h-20 w-20 rounded-xl bg-gradient-to-br from-[#3f6796] to-[#5b7fa8] shadow-md"
+                animate={reduce ? {} : { y: [0, 10, 0], rotate: [0, 10, 0] }}
+                transition={reduce ? {} : { duration: 9.5, ease: "easeInOut", repeat: Infinity }}
+              />
+              <motion.div
+                className="absolute bottom-8 right-8 h-28 w-28 rounded-3xl bg-gradient-to-br from-[#FF6B00] to-[#ffa05c] opacity-90 shadow-lg"
+                animate={reduce ? {} : { y: [0, -12, 0], x: [0, -8, 0], rotate: [0, -8, 0] }}
+                transition={reduce ? {} : { duration: 7.8, ease: "easeInOut", repeat: Infinity }}
+              />
+
+              {/* continuous confetti falling from the top */}
+              {!reduce &&
+                confetti.map((c, i) => (
+                  <motion.div
+                    key={i}
+                    aria-hidden
+                    className={`absolute z-20 ${confettiClass(c.shape)}`}
+                    style={{ left: `${c.left}%`, background: c.color }}
+                    initial={{ top: "-10%", opacity: 0 }}
+                    animate={{
+                      top: ["-10%", "110%"],
+                      x: [0, c.drift, 0, -c.drift, 0],
+                      rotate: [0, c.spin],
+                      opacity: [0, 1, 1, 1, 0],
+                    }}
+                    transition={{
+                      duration: c.duration,
+                      delay: c.delay,
+                      ease: "linear",
+                      repeat: Infinity,
+                    }}
+                  />
+                ))}
+
+              {/* Center glass card with glossy shine + glow pulse */}
+              <div className="relative z-10 flex h-full items-center justify-center">
+                <motion.div
+                  className="relative overflow-hidden rounded-2xl border border-white/70 bg-white/55 p-8 text-center backdrop-blur-2xl"
+                  animate={
+                    reduce
+                      ? {}
+                      : {
+                          boxShadow: [
+                            "0 12px 34px -8px rgba(4,59,115,0.30)",
+                            "0 22px 56px -8px rgba(255,107,0,0.42)",
+                            "0 12px 34px -8px rgba(4,59,115,0.30)",
+                          ],
+                        }
+                  }
+                  transition={reduce ? {} : { duration: 4, ease: "easeInOut", repeat: Infinity }}
+                >
+                  {/* glossy top sheen */}
+                  <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white to-transparent" />
+                  <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-white/55 to-transparent" />
+                  {/* sweeping shine */}
+                  {!reduce && (
+                    <motion.div
+                      aria-hidden
+                      className="pointer-events-none absolute top-0 h-full w-1/3 -skew-x-12 bg-gradient-to-r from-transparent via-white/55 to-transparent"
+                      initial={{ x: "-200%" }}
+                      animate={{ x: ["-200%", "400%"] }}
+                      transition={{ duration: 2.2, ease: "easeInOut", repeat: Infinity, repeatDelay: 2.5 }}
+                    />
+                  )}
+                  <p className="relative text-6xl font-black text-[#043b73]">10+</p>
+                  <p className="relative mt-2 text-lg font-semibold text-muted-foreground">
                     Years of Excellence
                   </p>
-                </div>
+                </motion.div>
               </div>
-
-              {/* Floating elements */}
-              <motion.div
-                animate={{ y: [-10, 10, -10] }}
-                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                className="absolute left-1/4 top-1/3 h-4 w-4 rounded-full bg-[#043b73]"
-              />
-              <motion.div
-                animate={{ y: [10, -10, 10] }}
-                transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-                className="absolute right-1/4 bottom-1/3 h-3 w-3 rounded-full bg-[#FF6B00]"
-              />
             </div>
           </motion.div>
 
