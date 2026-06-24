@@ -12,19 +12,34 @@ const highlights = [
   "Agile Methodologies",
 ]
 
-// continuous celebration sparkles scattered across the panel
-const sparkles = [
-  { left: "22%", top: "20%", delay: 0, color: "#ffffff", size: 6 },
-  { left: "78%", top: "24%", delay: 0.5, color: "#FF6B00", size: 5 },
-  { left: "30%", top: "30%", delay: 1.0, color: "#ffffff", size: 4 },
-  { left: "70%", top: "38%", delay: 1.5, color: "#043b73", size: 5 },
-  { left: "18%", top: "52%", delay: 0.8, color: "#FF6B00", size: 4 },
-  { left: "82%", top: "58%", delay: 2.0, color: "#ffffff", size: 6 },
-  { left: "34%", top: "70%", delay: 1.2, color: "#043b73", size: 5 },
-  { left: "66%", top: "74%", delay: 2.4, color: "#ffffff", size: 4 },
-  { left: "50%", top: "16%", delay: 1.8, color: "#FF6B00", size: 5 },
-  { left: "48%", top: "84%", delay: 0.3, color: "#043b73", size: 4 },
-]
+// continuous confetti — paper pieces falling from the top.
+// shape: "paper" (rect) | "ribbon" (tall thin) | "dot" | "tri" (triangle)
+const CONFETTI_COLORS = ["#043b73", "#FF6B00", "#3b82f6", "#fdba74", "#93c5fd", "#ffffff"]
+const confetti = Array.from({ length: 26 }, (_, i) => {
+  const shapes = ["paper", "ribbon", "dot", "tri"] as const
+  return {
+    left: (i * 37) % 100,                 // spread across width, deterministic
+    shape: shapes[i % shapes.length],
+    color: CONFETTI_COLORS[i % CONFETTI_COLORS.length],
+    duration: 3.6 + (i % 5) * 0.6,        // 3.6 - 6.0s
+    delay: (i % 13) * 0.45,               // staggered start
+    drift: (i % 2 === 0 ? 1 : -1) * (8 + (i % 4) * 6), // horizontal sway px
+    spin: i % 2 === 0 ? 360 : -360,
+  }
+})
+
+function confettiClass(shape: string) {
+  switch (shape) {
+    case "ribbon":
+      return "h-4 w-1 rounded-sm"
+    case "dot":
+      return "h-1.5 w-1.5 rounded-full"
+    case "tri":
+      return "h-2.5 w-2.5 [clip-path:polygon(50%_0,100%_100%,0_100%)]"
+    default:
+      return "h-2.5 w-1.5 rounded-[1px]" // paper
+  }
+}
 
 export function AboutSection() {
   const reduce = useReducedMotion()
@@ -65,23 +80,27 @@ export function AboutSection() {
                 transition={reduce ? {} : { duration: 7.8, ease: "easeInOut", repeat: Infinity }}
               />
 
-              {/* continuous celebration sparkles */}
+              {/* continuous confetti falling from the top */}
               {!reduce &&
-                sparkles.map((sp, i) => (
+                confetti.map((c, i) => (
                   <motion.div
                     key={i}
                     aria-hidden
-                    className="absolute z-20 rounded-full"
-                    style={{
-                      left: sp.left,
-                      top: sp.top,
-                      height: sp.size,
-                      width: sp.size,
-                      background: sp.color,
-                      boxShadow: `0 0 8px 2px ${sp.color}`,
+                    className={`absolute z-20 ${confettiClass(c.shape)}`}
+                    style={{ left: `${c.left}%`, background: c.color }}
+                    initial={{ top: "-10%", opacity: 0 }}
+                    animate={{
+                      top: ["-10%", "110%"],
+                      x: [0, c.drift, 0, -c.drift, 0],
+                      rotate: [0, c.spin],
+                      opacity: [0, 1, 1, 1, 0],
                     }}
-                    animate={{ scale: [0, 1.5, 0], opacity: [0, 1, 0] }}
-                    transition={{ duration: 1.8, delay: sp.delay, ease: "easeInOut", repeat: Infinity, repeatDelay: 0.6 }}
+                    transition={{
+                      duration: c.duration,
+                      delay: c.delay,
+                      ease: "linear",
+                      repeat: Infinity,
+                    }}
                   />
                 ))}
 
