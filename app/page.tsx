@@ -54,7 +54,7 @@ export default function HomePage() {
         <div className="relative" style={{ isolation: "isolate" }}>
           <Particles
             particleColors={["#043b73", "#FF6B00", "#93c5fd", "#fed7aa", "#3b82f6", "#fbbf24", "#60a5fa", "#fb923c"]}
-            particleCount={1200}
+            particleCount={550}
             particleSpread={6}
             speed={0.04}
             particleBaseSize={220}
@@ -81,7 +81,7 @@ export default function HomePage() {
       <div className="relative">
         <Particles
           particleColors={["#043b73", "#FF6B00", "#93c5fd", "#fed7aa", "#60a5fa", "#fb923c"]}
-          particleCount={400}
+          particleCount={180}
           particleSpread={6}
           speed={0.03}
           particleBaseSize={180}
