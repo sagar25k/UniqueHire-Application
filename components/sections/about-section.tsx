@@ -15,7 +15,7 @@ const highlights = [
 // continuous confetti — paper pieces falling from the top.
 // shape: "paper" (rect) | "ribbon" (tall thin) | "dot" | "tri" (triangle)
 const CONFETTI_COLORS = ["#043b73", "#FF6B00", "#3b82f6", "#fdba74", "#93c5fd", "#ffffff"]
-const confetti = Array.from({ length: 26 }, (_, i) => {
+const confetti = Array.from({ length: 18 }, (_, i) => {
   const shapes = ["paper", "ribbon", "dot", "tri"] as const
   return {
     left: (i * 37) % 100,                 // spread across width, deterministic
@@ -86,11 +86,11 @@ export function AboutSection() {
                   <motion.div
                     key={i}
                     aria-hidden
-                    className={`absolute z-20 ${confettiClass(c.shape)}`}
-                    style={{ left: `${c.left}%`, background: c.color }}
-                    initial={{ top: "-10%", opacity: 0 }}
+                    className={`absolute top-0 z-20 ${confettiClass(c.shape)}`}
+                    style={{ left: `${c.left}%`, background: c.color, willChange: "transform" }}
+                    initial={{ y: -40, opacity: 0 }}
                     animate={{
-                      top: ["-10%", "110%"],
+                      y: [-40, 720],
                       x: [0, c.drift, 0, -c.drift, 0],
                       rotate: [0, c.spin],
                       opacity: [0, 1, 1, 1, 0],
@@ -106,20 +106,25 @@ export function AboutSection() {
 
               {/* Center glass card with glossy shine + glow pulse */}
               <div className="relative z-10 flex h-full items-center justify-center">
-                <motion.div
-                  className="relative overflow-hidden rounded-2xl border border-white/70 bg-white/55 p-8 text-center backdrop-blur-2xl"
-                  animate={
-                    reduce
-                      ? {}
-                      : {
-                          boxShadow: [
-                            "0 12px 34px -8px rgba(4,59,115,0.30)",
-                            "0 22px 56px -8px rgba(255,107,0,0.42)",
-                            "0 12px 34px -8px rgba(4,59,115,0.30)",
-                          ],
-                        }
-                  }
-                  transition={reduce ? {} : { duration: 4, ease: "easeInOut", repeat: Infinity }}
+                {/* compositor-friendly glow: two blurred layers cross-fading (opacity only) */}
+                {!reduce && (
+                  <>
+                    <motion.div
+                      aria-hidden
+                      className="pointer-events-none absolute h-44 w-60 rounded-full bg-[#043b73]/40 blur-3xl"
+                      animate={{ opacity: [0.5, 0.15, 0.5] }}
+                      transition={{ duration: 4, ease: "easeInOut", repeat: Infinity }}
+                    />
+                    <motion.div
+                      aria-hidden
+                      className="pointer-events-none absolute h-44 w-60 rounded-full bg-[#FF6B00]/40 blur-3xl"
+                      animate={{ opacity: [0.15, 0.5, 0.15] }}
+                      transition={{ duration: 4, ease: "easeInOut", repeat: Infinity }}
+                    />
+                  </>
+                )}
+                <div
+                  className="relative overflow-hidden rounded-2xl border border-white/70 bg-white/70 p-8 text-center shadow-xl backdrop-blur-md"
                 >
                   {/* glossy top sheen */}
                   <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white to-transparent" />
@@ -138,7 +143,7 @@ export function AboutSection() {
                   <p className="relative mt-2 text-lg font-semibold text-muted-foreground">
                     Years of Excellence
                   </p>
-                </motion.div>
+                </div>
               </div>
             </div>
           </motion.div>
