@@ -43,23 +43,27 @@ export function ConstellationBackground() {
       const cx = w / 2, cy = h / 2
       for (let x = GAP / 2; x < w; x += GAP) {
         for (let y = GAP / 2; y < h; y += GAP) {
-          // concentric ripple (orange crest -> blue trough), travels outward
+          // travelling ring that sweeps the WHOLE page from the centre out
           const dc = Math.hypot(x - cx, y - cy)
-          const ripple = reduce ? 0.5 : (Math.sin(dc / 55 - t / 650) + 1) / 2
+          const cyc = reduce ? 0.5 : (Math.sin(dc / 70 - t / 700) + 1) / 2 // 0..1
+
+          // intensity peaks at pure colour, dips to 0 (white) at the midpoint
+          const intensity = Math.abs(cyc - 0.5) * 2
+          // first half of the wave = orange, second half = blue
+          const base = cyc < 0.5 ? ORANGE : BLUE
 
           // circular cursor lens — smooth zoom + brighten
           const dm = Math.hypot(x - mouse.x, y - mouse.y)
-          const lens = dm < LENS ? Math.cos((dm / LENS) * (Math.PI / 2)) : 0 // 1 at center -> 0 at edge
+          const lens = dm < LENS ? Math.cos((dm / LENS) * (Math.PI / 2)) : 0
 
-          // colour: lerp blue -> orange by ripple (orange on crest), lens pushes orange
-          const mix = Math.min(1, ripple + lens * 0.6)
-          const r = Math.round(BLUE[0] + (ORANGE[0] - BLUE[0]) * mix)
-          const g = Math.round(BLUE[1] + (ORANGE[1] - BLUE[1]) * mix)
-          const b = Math.round(BLUE[2] + (ORANGE[2] - BLUE[2]) * mix)
+          // fade colour toward white as intensity drops
+          const k = Math.min(1, intensity + lens * 0.8)
+          const r = Math.round(255 + (base[0] - 255) * k)
+          const g = Math.round(255 + (base[1] - 255) * k)
+          const b = Math.round(255 + (base[2] - 255) * k)
 
-          // size: visible baseline across whole page + ripple + strong lens zoom
-          const size = 1.1 + ripple * 1.3 + lens * 4.2
-          const alpha = 0.2 + ripple * 0.3 + lens * 0.55
+          const size = 1.4 + intensity * 1.6 + lens * 4.4
+          const alpha = 0.18 + intensity * 0.6 + lens * 0.5
 
           ctx.fillStyle = `rgba(${r},${g},${b},${alpha})`
           ctx.beginPath()
@@ -101,8 +105,8 @@ export function ConstellationBackground() {
 
   return (
     <div aria-hidden className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
-      {/* light base with a faint orange->blue wash (orange first) */}
-      <div className="absolute inset-0 bg-gradient-to-br from-[#fdf0e6] via-white to-[#eaf1fb]" />
+      {/* near-neutral light base so both orange and blue read */}
+      <div className="absolute inset-0 bg-[#f7f9fc]" />
       <canvas ref={canvasRef} className="absolute inset-0 h-full w-full" />
     </div>
   )

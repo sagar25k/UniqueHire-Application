@@ -39,7 +39,7 @@ export function HeroSection() {
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0"
-        style={{ background: "radial-gradient(ellipse 60% 70% at 28% 45%, rgba(255,255,255,0.75), transparent 70%)" }}
+        style={{ background: "radial-gradient(ellipse 50% 60% at 28% 45%, rgba(247,249,252,0.55), transparent 72%)" }}
       />
 
       <div className="relative z-10 mx-auto flex min-h-[calc(100vh-9rem)] max-w-7xl flex-col items-center justify-center gap-8 px-4 lg:flex-row lg:gap-16 lg:px-8">
