@@ -88,22 +88,39 @@ export default function TeamPage() {
           </div>
         </section>
 
-        {/* Leadership profile cards */}
+        {/* Leadership chain — one per row, zig-zag, connected timeline */}
         <section className="py-16 lg:py-24">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="relative mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+            {/* central connector line (desktop) with flowing pulse */}
+            <div aria-hidden className="absolute left-1/2 top-0 bottom-0 hidden w-[2px] -translate-x-1/2 lg:block">
+              <div className="absolute inset-0 bg-gradient-to-b from-[#043b73]/30 via-[#FF6B00]/30 to-[#043b73]/30" />
+              <motion.div
+                className="absolute left-0 h-28 w-full bg-gradient-to-b from-transparent via-[#FF6B00] to-transparent"
+                initial={{ top: "-15%" }}
+                animate={{ top: ["-15%", "115%"] }}
+                transition={{ duration: 5, ease: "linear", repeat: Infinity }}
+              />
+            </div>
+
+            <div className="space-y-16 lg:space-y-24">
               {teamMembers.map((m, i) => (
-                <LeadershipCard
-                  key={m.name}
-                  index={i}
-                  name={m.name}
-                  designation={m.designation}
-                  src={m.src}
-                  bio={m.quote}
-                  accent={i % 2 === 0 ? "blue" : "orange"}
-                  linkedinUrl="#"
-                  email="info@uniquehire.com"
-                />
+                <div key={m.name} className="relative">
+                  {/* node on the center line */}
+                  <div aria-hidden className="absolute left-1/2 top-1/2 z-10 hidden -translate-x-1/2 -translate-y-1/2 lg:block">
+                    <span className="block h-4 w-4 rounded-full bg-white shadow-[0_0_0_4px_rgba(255,255,255,0.6)] ring-2" style={{ borderColor: i % 2 === 0 ? "#043b73" : "#FF6B00", boxShadow: `0 0 0 4px #fff, 0 0 14px 2px ${i % 2 === 0 ? "rgba(4,59,115,0.6)" : "rgba(255,107,0,0.6)"}` }} />
+                  </div>
+                  <LeadershipCard
+                    index={i}
+                    name={m.name}
+                    designation={m.designation}
+                    src={m.src}
+                    bio={m.quote}
+                    accent={i % 2 === 0 ? "blue" : "orange"}
+                    reverse={i % 2 === 1}
+                    linkedinUrl="#"
+                    email="info@uniquehire.com"
+                  />
+                </div>
               ))}
             </div>
           </div>
