@@ -4,7 +4,6 @@ import { motion } from "framer-motion"
 import dynamic from "next/dynamic"
 import { ArrowRight, Play } from "lucide-react"
 import { WordReveal } from "@/components/ui/word-reveal"
-import { AuroraBackground } from "@/components/ui/aurora-background"
 import { MagneticButton } from "@/components/ui/magnetic-button"
 
 // Lazy-load the canvas globe so it doesn't block the hero text from painting
@@ -22,8 +21,7 @@ const stats = [
 export function HeroSection() {
   return (
     <section className="relative min-h-screen overflow-hidden pt-28 sm:pt-32">
-      {/* Ambient aurora + perspective grid floor */}
-      <AuroraBackground className="absolute inset-0" intensity={0.9} />
+      {/* Perspective grid floor (global aurora background shows through) */}
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 opacity-[0.18]"
@@ -37,8 +35,12 @@ export function HeroSection() {
           transformOrigin: "center bottom",
         }}
       />
-      {/* soft top wash so the navbar floats cleanly */}
-      <div aria-hidden className="pointer-events-none absolute inset-0 bg-gradient-to-t from-background via-background/30 to-background/70" />
+      {/* soft readability scrim behind the left text column only */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0"
+        style={{ background: "radial-gradient(ellipse 60% 70% at 28% 45%, rgba(255,255,255,0.75), transparent 70%)" }}
+      />
 
       <div className="relative z-10 mx-auto flex min-h-[calc(100vh-9rem)] max-w-7xl flex-col items-center justify-center gap-8 px-4 lg:flex-row lg:gap-16 lg:px-8">
         {/* Left Content */}
