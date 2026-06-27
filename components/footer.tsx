@@ -178,7 +178,7 @@ export function Footer() {
               href="/developers"
               className="text-sm text-muted-foreground transition-colors hover:text-[#043b73]"
             >
-              Developed Team
+              Developer Team
             </Link>
             <Link
               href="/privacy"
