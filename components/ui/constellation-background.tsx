@@ -39,7 +39,8 @@ export function ConstellationBackground() {
     }
 
     // total cycle: orange fades in->bright->out, then blue fades in->bright->out
-    const CYCLE = 7000
+    // (slow + smooth — full orange+blue loop spans 16s)
+    const CYCLE = 16000
 
     const draw = (t: number) => {
       ctx.clearRect(0, 0, w, h)
