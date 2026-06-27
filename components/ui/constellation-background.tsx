@@ -38,34 +38,31 @@ export function ConstellationBackground() {
       ctx.setTransform(DPR, 0, 0, DPR, 0, 0)
     }
 
+    // total cycle: orange fades in->bright->out, then blue fades in->bright->out
+    const CYCLE = 7000
+
     const draw = (t: number) => {
       ctx.clearRect(0, 0, w, h)
-      const cx = w / 2, cy = h / 2
+
+      // one global colour + brightness for the WHOLE grid (no spatial mixing)
+      const phase = reduce ? 0.25 : (t % CYCLE) / CYCLE // 0..1
+      const firstHalf = phase < 0.5
+      const local = firstHalf ? phase / 0.5 : (phase - 0.5) / 0.5 // 0..1 within the colour
+      const brightness = Math.sin(local * Math.PI) // 0 -> 1 -> 0 (in then out)
+      const base = firstHalf ? ORANGE : BLUE
+      const baseAlpha = 0.08 + brightness * 0.62
+      const baseSize = 1.2 + brightness * 1.5
+
       for (let x = GAP / 2; x < w; x += GAP) {
         for (let y = GAP / 2; y < h; y += GAP) {
-          // travelling ring that sweeps the WHOLE page from the centre out
-          const dc = Math.hypot(x - cx, y - cy)
-          const cyc = reduce ? 0.5 : (Math.sin(dc / 70 - t / 700) + 1) / 2 // 0..1
-
-          // intensity peaks at pure colour, dips to 0 (white) at the midpoint
-          const intensity = Math.abs(cyc - 0.5) * 2
-          // first half of the wave = orange, second half = blue
-          const base = cyc < 0.5 ? ORANGE : BLUE
-
-          // circular cursor lens — smooth zoom + brighten
+          // circular cursor lens — local zoom + brighten (same colour)
           const dm = Math.hypot(x - mouse.x, y - mouse.y)
           const lens = dm < LENS ? Math.cos((dm / LENS) * (Math.PI / 2)) : 0
 
-          // fade colour toward white as intensity drops
-          const k = Math.min(1, intensity + lens * 0.8)
-          const r = Math.round(255 + (base[0] - 255) * k)
-          const g = Math.round(255 + (base[1] - 255) * k)
-          const b = Math.round(255 + (base[2] - 255) * k)
+          const size = baseSize + lens * 4.4
+          const alpha = Math.min(1, baseAlpha + lens * 0.5)
 
-          const size = 1.4 + intensity * 1.6 + lens * 4.4
-          const alpha = 0.18 + intensity * 0.6 + lens * 0.5
-
-          ctx.fillStyle = `rgba(${r},${g},${b},${alpha})`
+          ctx.fillStyle = `rgba(${base[0]},${base[1]},${base[2]},${alpha})`
           ctx.beginPath()
           ctx.arc(x, y, size, 0, Math.PI * 2)
           ctx.fill()
