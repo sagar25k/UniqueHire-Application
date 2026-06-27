@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next'
 import { Inter, Playfair_Display } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import { ThemeProvider } from '@/components/theme-provider'
+import { ConstellationBackground } from '@/components/ui/constellation-background'
 import ClickSpark from '@/components/ui/ClickSpark'
 import './globals.css'
 
@@ -61,6 +62,7 @@ export default function RootLayout({
       </head>
       <body className={`${inter.variable} ${playfair.variable} font-sans antialiased`}>
         <ThemeProvider defaultTheme="light" enableSystem>
+          <ConstellationBackground />
           <ClickSpark sparkColor="#FF6B00" sparkSize={10} sparkRadius={15} sparkCount={8} duration={400} />
           {children}
         </ThemeProvider>
