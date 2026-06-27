@@ -55,11 +55,6 @@ export function LeadershipCard({
   const sy = useSpring(py, { stiffness: 200, damping: 18 })
   const rotateY = useTransform(sx, [0, 1], [8, -8])
   const rotateX = useTransform(sy, [0, 1], [-8, 8])
-  const spotlight = useTransform(
-    [px, py] as const,
-    ([x, y]: number[]) =>
-      `radial-gradient(220px circle at ${x * 100}% ${y * 100}%, rgba(${a.rgb},0.22), transparent 60%)`,
-  )
 
   const onMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (reduce) return
@@ -88,10 +83,10 @@ export function LeadershipCard({
     >
       {/* PHOTO — thick animated gradient border + tilt */}
       <motion.div
-        initial={{ opacity: 0, x: reverse ? 40 : -40 }}
+        initial={{ opacity: 0, x: reverse ? 90 : -90 }}
         whileInView={{ opacity: 1, x: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.6 }}
+        viewport={{ once: true, amount: 0.4 }}
+        transition={{ duration: 0.7, ease: [0.21, 0.47, 0.32, 0.98] }}
         className="flex justify-center [perspective:1200px] lg:[direction:ltr]"
       >
         <motion.div
@@ -123,8 +118,8 @@ export function LeadershipCard({
                   className="object-cover object-top transition-transform duration-700 group-hover:scale-105"
                 />
                 <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, transparent 55%, rgba(8,15,30,0.5) 100%)" }} />
-                <motion.div aria-hidden className="pointer-events-none absolute inset-0 transition-opacity duration-300" style={{ opacity: hovered && !reduce ? 1 : 0, background: spotlight }} />
-                <span className={cn("absolute left-4 top-4 inline-flex items-center gap-1.5 rounded-full border border-white/25 bg-white/15 px-3 py-1 text-[11px] font-semibold uppercase tracking-wide text-white backdrop-blur-md")} style={{ transform: "translateZ(40px)" }}>
+                {/* corner-edge designation tab (flush to top-left) */}
+                <span className="absolute left-0 top-0 inline-flex items-center gap-1.5 rounded-br-2xl rounded-tl-[22px] bg-neutral-900/75 py-1.5 pl-3 pr-4 text-[11px] font-semibold uppercase tracking-wide text-white backdrop-blur-md">
                   <span className="h-1.5 w-1.5 rounded-full" style={{ backgroundColor: a.hex }} />
                   {designation}
                 </span>
@@ -136,10 +131,10 @@ export function LeadershipCard({
 
       {/* TEXT — beside the photo, outside the card */}
       <motion.div
-        initial={{ opacity: 0, x: reverse ? -40 : 40 }}
+        initial={{ opacity: 0, x: reverse ? -90 : 90 }}
         whileInView={{ opacity: 1, x: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.6, delay: 0.1 }}
+        viewport={{ once: true, amount: 0.4 }}
+        transition={{ duration: 0.7, delay: 0.12, ease: [0.21, 0.47, 0.32, 0.98] }}
         className={cn("lg:[direction:ltr]", reverse ? "lg:text-right" : "lg:text-left")}
       >
         <span className={cn("inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-wide", a.chip)}>
