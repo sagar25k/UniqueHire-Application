@@ -4,7 +4,7 @@ import { motion } from "framer-motion"
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
 import { ScrollToTop } from "@/components/scroll-to-top"
-import CircularTestimonials from "@/components/ui/circular-testimonials"
+import { LeadershipCard } from "@/components/ui/leadership-card"
 
 const teamMembers = [
   {
@@ -88,34 +88,24 @@ export default function TeamPage() {
           </div>
         </section>
 
-        {/* Circular Testimonials — Team Section */}
+        {/* Leadership profile cards */}
         <section className="py-16 lg:py-24">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              className="flex items-center justify-center"
-            >
-              <CircularTestimonials
-                testimonials={teamMembers}
-                autoplay={true}
-                colors={{
-                  name: "hsl(var(--foreground))",
-                  designation: "#FF6B00",
-                  testimony: "hsl(var(--muted-foreground))",
-                  arrowBackground: "#043b73",
-                  arrowForeground: "#ffffff",
-                  arrowHoverBackground: "#FF6B00",
-                }}
-                fontSizes={{
-                  name: "28px",
-                  designation: "15px",
-                  quote: "17px",
-                }}
-              />
-            </motion.div>
+            <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+              {teamMembers.map((m, i) => (
+                <LeadershipCard
+                  key={m.name}
+                  index={i}
+                  name={m.name}
+                  designation={m.designation}
+                  src={m.src}
+                  bio={m.quote}
+                  accent={i % 2 === 0 ? "blue" : "orange"}
+                  linkedinUrl="#"
+                  email="info@uniquehire.com"
+                />
+              ))}
+            </div>
           </div>
         </section>
 
